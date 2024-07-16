@@ -1,0 +1,107 @@
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Calculator extends JFrame implements ActionListener {
+    // Components of the Form
+    private Container container;
+    private JLabel label1, label2, label3;
+    private JTextField textField1, textField2, textField3;
+    private JButton addButton, subtractButton, multiplyButton, divideButton, clearButton;
+
+    public Calculator() {
+        setTitle("Calculator");
+        setBounds(300, 90, 400, 300);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(false);
+
+        container = getContentPane();
+        container.setLayout(null);
+
+        label1 = new JLabel("First Number:");
+        label1.setBounds(50, 50, 100, 30);
+        container.add(label1);
+
+        textField1 = new JTextField();
+        textField1.setBounds(150, 50, 150, 30);
+        container.add(textField1);
+
+        label2 = new JLabel("Second Number:");
+        label2.setBounds(50, 100, 100, 30);
+        container.add(label2);
+
+        textField2 = new JTextField();
+        textField2.setBounds(150, 100, 150, 30);
+        container.add(textField2);
+
+        label3 = new JLabel("Result:");
+        label3.setBounds(50, 150, 100, 30);
+        container.add(label3);
+
+        textField3 = new JTextField();
+        textField3.setBounds(150, 150, 150, 30);
+        textField3.setEditable(false);
+        container.add(textField3);
+
+        addButton = new JButton("+");
+        addButton.setBounds(50, 200, 50, 30);
+        addButton.addActionListener(this);
+        container.add(addButton);
+
+        subtractButton = new JButton("-");
+        subtractButton.setBounds(110, 200, 50, 30);
+        subtractButton.addActionListener(this);
+        container.add(subtractButton);
+
+        multiplyButton = new JButton("*");
+        multiplyButton.setBounds(170, 200, 50, 30);
+        multiplyButton.addActionListener(this);
+        container.add(multiplyButton);
+
+        divideButton = new JButton("/");
+        divideButton.setBounds(230, 200, 50, 30);
+        divideButton.addActionListener(this);
+        container.add(divideButton);
+
+        clearButton = new JButton("Clear");
+        clearButton.setBounds(290, 200, 70, 30);
+        clearButton.addActionListener(this);
+        container.add(clearButton);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        try {
+            double num1 = Double.parseDouble(textField1.getText());
+            double num2 = Double.parseDouble(textField2.getText());
+            double result = 0;
+
+            if (e.getSource() == addButton) {
+                result = num1 + num2;
+            } else if (e.getSource() == subtractButton) {
+                result = num1 - num2;
+            } else if (e.getSource() == multiplyButton) {
+                result = num1 * num2;
+            } else if (e.getSource() == divideButton) {
+                if (num2 != 0) {
+                    result = num1 / num2;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Cannot divide by zero");
+                    return;
+                }
+            } else if (e.getSource() == clearButton) {
+                textField1.setText("");
+                textField2.setText("");
+                textField3.setText("");
+                return;
+            }
+            textField3.setText(String.valueOf(result));
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Please enter valid numbers");
+        }
+    }
+
+    public static void main(String[] args) {
+        Calculator calculator = new Calculator();
+        calculator.setVisible(true);
+    }
+}
